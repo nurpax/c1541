@@ -20,7 +20,7 @@
   ],
   "author": "Janne Hellsten <jjhellst@gmail.com>",
   "license": "ISC",
-  "homepage": "https://github.com/nurpax/c1541.git",
+  "homepage": "https://github.com/nurpax/c1541",
   "devDependencies": {
     "@types/jest": "^24.0.9",
     "@types/node": "^11.10.0",
