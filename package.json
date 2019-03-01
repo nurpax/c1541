@@ -2,18 +2,23 @@
   "name": "c1541",
   "version": "0.1.0",
   "description": "c1541 -- C64 .d64 disk image utility library",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build" : "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare" : "npm run build",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nurpax/c1541.git"
+    "url": "git+https://github.com/nurpax/c1541.git"
   },
   "keywords": [],
-  "author": "",
+  "files": ["lib/**/*"],
+  "author": "Janne Hellsten <jjhellst@gmail.com>",
   "license": "ISC",
+  "homepage": "https://github.com/nurpax/c1541.git",
   "devDependencies": {
     "typescript": "^3.3.3333"
   }
