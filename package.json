@@ -5,9 +5,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build" : "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare" : "npm run build",
+    "build": "tsc",
+    "test": "jest --config jestconfig.json",
+    "prepare": "npm run build",
     "prepublishOnly": "npm test"
   },
   "repository": {
@@ -15,11 +15,16 @@
     "url": "git+https://github.com/nurpax/c1541.git"
   },
   "keywords": [],
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "author": "Janne Hellsten <jjhellst@gmail.com>",
   "license": "ISC",
   "homepage": "https://github.com/nurpax/c1541.git",
   "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
     "typescript": "^3.3.3333"
   }
 }
