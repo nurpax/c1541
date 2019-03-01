@@ -1,0 +1,20 @@
+{
+  "name": "c1541",
+  "version": "0.1.0",
+  "description": "c1541 -- C64 .d64 disk image utility library",
+  "main": "index.js",
+  "scripts": {
+    "build" : "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nurpax/c1541.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.3.3333"
+  }
+}
