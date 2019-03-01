@@ -123,7 +123,6 @@ export function readDirectory(d64Binary: Uint8Array): DirectoryEntry[] {
           throw new Error('Unknown directory entry file type');
       }
       const petsciiName = d64Binary.slice(offs + 0x05, offs + 0x15);
-      console.log(d64Binary[offs+2], petsciiName.toString());
       dirEntries.push({
         type: fileType,
         petsciiName,
