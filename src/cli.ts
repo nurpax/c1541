@@ -15,7 +15,8 @@ for (let i = 0; i < 256; i++) {
 
 program
   .description("C64 c1541 directory filename editor")
-  .option('--petmate <path>', 'read dirart from this .petmate file (choose first screen)')
+  .usage('[options] <input.d64> <output.d64>')
+  .option('--petmate <path>', 'source .petmate file to use as dir art -- uses the first screen in the file')
   .version(version)
   .parse(process.argv);
 
@@ -51,7 +52,7 @@ for (let i = 0; i < dirEntries.length; i++) {
   pet.set(d, 0);
   d64bin.set(pet, dirEntries[i].d64FileOffset);
 
-  // TODO add option to fill the rest of the empties with just empty?
+  // TODO add option to fill the rest of the entries with just empty?
   if (i >= newDirnames.length-1) {
     break;
   }
