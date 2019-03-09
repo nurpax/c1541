@@ -11,6 +11,7 @@ export interface DirectoryEntry {
   type: FileType;
   petsciiName: Uint8Array;    // 16 codes (padded with $A0)
   screencodeName: Uint8Array; // 16 screencodes
+  d64FileOffset: number;
 };
 
 type TrackInfo = {
@@ -69,31 +70,34 @@ function getOffset(track: number, sector: number): number {
   return trackInfo[track].d64Offset + sector*256;
 }
 
-function toPetsciiToScreencode(petscii: Uint8Array): Uint8Array {
+export function petsciiToScreen(p: number): number {
+  if (p >= 0 && p < 32) {
+    return p + 128;
+  } else if (p >= 32 && p < 64) {
+    return p;
+  } else if (p >= 64 && p < 96) {
+    return p - 64;
+  } else if (p >= 96 && p < 128) {
+    return p - 32;
+  } else if (p >= 128 && p < 160) {
+    return p + 64;
+  } else if (p >= 160 && p < 192) {
+    return p - 64;
+  } else if (p >= 192 && p < 224) {
+    return p - 128;
+  } else if (p >= 224 && p < 255) {
+    return p - 128;
+  } else if (p == 255) {
+    return 94;
+  } else {
+    throw new Error('impossible - bug above');
+  }
+}
+
+function petsciiToScreenArray(petscii: Uint8Array): Uint8Array {
   const dst = new Uint8Array(petscii.length);
   for (let i = 0; i < petscii.length; i++) {
-    const p = petscii[i];
-    if (p >= 0 && p < 32) {
-      dst[i] = p + 128;
-    } else if (p >= 32 && p < 64) {
-      dst[i] = p;
-    } else if (p >= 64 && p < 96) {
-      dst[i] = p - 64;
-    } else if (p >= 96 && p < 128) {
-      dst[i] = p - 32;
-    } else if (p >= 128 && p < 160) {
-      dst[i] = p + 64;
-    } else if (p >= 160 && p < 192) {
-      dst[i] = p - 64;
-    } else if (p >= 192 && p < 224) {
-      dst[i] = p - 128;
-    } else if (p >= 224 && p < 255) {
-      dst[i] = p - 128;
-    } else if (p == 255) {
-      dst[i] = 94;
-    } else {
-      throw new Error('impossible - bug above');
-    }
+    dst[i] = petsciiToScreen(petscii[i]);
   }
   return dst;
 }
@@ -126,7 +130,8 @@ export function readDirectory(d64Binary: Uint8Array): DirectoryEntry[] {
       dirEntries.push({
         type: fileType,
         petsciiName,
-        screencodeName: toPetsciiToScreencode(petsciiName)
+        screencodeName: petsciiToScreenArray(petsciiName),
+        d64FileOffset: offs + 0x05
       })
     }
 

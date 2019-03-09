@@ -3,10 +3,14 @@
   "version": "0.1.1",
   "description": "c1541 -- C64 .d64 disk image utility library",
   "main": "lib/index.js",
+  "bin": {
+    "c1541js": "./lib/cli.js"
+  },
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest --config jestconfig.json",
+    "cli": "node lib/cli.js",
     "prepare": "npm run build",
     "prepublishOnly": "npm test"
   },
