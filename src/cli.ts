@@ -30,6 +30,8 @@ program
   .usage('[options] <input.d64> <output.d64>')
   .option('--petmate <path>', 'source .petmate file to use as dir art -- uses the first screen in the file')
   .option('--json <path>', 'Petmate .json exported file to use as dir art -- uses the first screen in the file')
+  .option('--dest-offset <offset>', 'Destination dir entry row offset (default is first row)')
+  .option('--dest-length <numrows>', 'How many dir rows to write (default is use all rows from input)')
   .version(version)
   .parse(process.argv);
 
@@ -76,15 +78,24 @@ const d64bin = fs.readFileSync(program.args[0]);
 const dirEntries = readDirectory(d64bin);
 
 let newDirnames = screencodes!;
-for (let i = 0; i < dirEntries.length; i++) {
+let numLines = Math.min(dirEntries.length, newDirnames.length);
+let destOffset = 0;
+if (program.destLength !== undefined) {
+  numLines = parseInt(program.destLength, 10);
+}
+if (program.destOffset !== undefined) {
+  destOffset = parseInt(program.destOffset, 10);
+}
+
+for (let i = 0; i < numLines; i++, destOffset++) {
   const d = newDirnames[i].map(p => screenToPetscii[p]);
   const pet = new Uint8Array(16);
   pet.fill(0x20);
   pet.set(d.slice(0, 16), 0);
-  d64bin.set(pet, dirEntries[i].d64FileOffset);
+  d64bin.set(pet, dirEntries[destOffset].d64FileOffset);
 
   // TODO add option to fill the rest of the entries with just empty?
-  if (i >= newDirnames.length-1) {
+  if (i >= newDirnames.length-1 || destOffset >= dirEntries.length-1) {
     break;
   }
 }
