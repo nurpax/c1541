@@ -1,6 +1,6 @@
 {
   "name": "c1541",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "c1541 -- C64 .d64 disk image utility library",
   "main": "lib/index.js",
   "bin": {
